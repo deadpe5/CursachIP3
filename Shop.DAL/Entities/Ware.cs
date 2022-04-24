@@ -15,9 +15,9 @@ namespace Shop.DAL.Entities
         public int SupplierId { get; set; }
         public virtual Supplier Supplier { get; set; }
         public int WareStatudId { get; set; }
-        public virtual WareStatus WareStatusId { get; set; }
+        public virtual WareStatus WareStatus { get; set; }
         public int TypeId { get; set; }
-        public virtual Type Type { get; set; }
+        public virtual WareType WareType { get; set; }
         public virtual ICollection<OrderWare> OrderWares { get; set; }
         public virtual ICollection<RAM> RAM { get; set; }
         public virtual ICollection<CPU> CPUs { get; set; }

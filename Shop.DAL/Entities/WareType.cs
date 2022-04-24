@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shop.DAL.Entities
 {
-    public class Type
+    public class WareType
     {
         public int Id { get; set; }
         public string TypeName { get; set; }
