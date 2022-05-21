@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.BLL
+namespace Shop.BLL.DTO
 {
-    public class TestService
+    public class AuthUserDTO
     {
-
+        public string Token { get; set; }
+        public UserDTO User { get; set; }
     }
 }

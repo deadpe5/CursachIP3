@@ -21,7 +21,9 @@ namespace Shop.DAL.Entities
         [Required]
         public string Phone { get; set; }
         [Required]
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        [Required]
+        public byte[] PasswordSalt { get; set; }
         public int GenderId { get; set; }
         [ForeignKey("GenderId")]
         public virtual Gender Gender { get; set; }

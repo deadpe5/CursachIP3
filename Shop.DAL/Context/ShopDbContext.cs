@@ -4,6 +4,7 @@ using Shop.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,9 @@ namespace Shop.DAL.Context
     {
         public ShopDbContext(DbContextOptions<ShopDbContext> options)
             : base(options)
-        { }
+        { 
+
+        }
 
         public DbSet<CPU> CPUs { get; set; }
         public DbSet<GPU> GPUs { get; set; }
@@ -109,16 +112,28 @@ namespace Shop.DAL.Context
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            CreatePasswordHash("qwerty", out byte[] passwordHash, out byte[] passwordSalt);
+
             builder.HasData(
                 new User() { Id = 1,
                     Name = "Admin",
                     Surname = "Admin",
                     Email = "admin@mail.ua",
                     Phone = "0951234567",
-                    Password = "admin",
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
                     RoleId = 1,
                     GenderId = 3}
                 );
+        }
+
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }
