@@ -14,6 +14,6 @@ namespace Shop.BLL.Services
         Task<List<UserDTO>> GetUsersByName(string userName);
         Task DeleteUser(string userEmail);
         Task UpdateUser(UserDTO user);
-        void ToggleRole(string email);
+        Task ToggleRole(string userEmail);
     }
 }

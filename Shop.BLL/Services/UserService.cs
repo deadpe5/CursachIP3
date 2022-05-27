@@ -99,9 +99,10 @@ namespace Shop.BLL.Services
             return users;
         }
 
-        public async void ToggleRole(string userEmail)
+        public async Task ToggleRole(string userEmail)
         {
-            var userEntity = await _context.Users.FirstOrDefaultAsync(s => s.Email == userEmail);
+            var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+            
             if (userEntity == null)
             {
                 throw new NotFoundException("User with this email was not found");
@@ -112,7 +113,7 @@ namespace Shop.BLL.Services
                 throw new AdministratorViolationException("Can change role for Administrator");
             }
 
-            userEntity.RoleId ^= 2;
+            userEntity.RoleId ^= 1;
             await _context.SaveChangesAsync();
         }
 

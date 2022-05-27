@@ -10,9 +10,12 @@ namespace Shop.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService adminService;
+        private readonly IUserService userService;
 
-        public AdminController(IAdminService adminService)
+        public AdminController(IAdminService adminService, IUserService userService)
+
         {
+            this.userService = userService;
             this.adminService = adminService;
         }
 
@@ -43,15 +46,43 @@ namespace Shop.Controllers
         [HttpGet("getSuppliers"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult> GetAllSuppliers()
         {
-            var q = await adminService.GetAllSuppliersList();
-            return Ok(q);
+            var suppliers = await adminService.GetAllSuppliersList();
+            return Ok(suppliers);
         }
 
         [HttpGet("getSuppliersByName"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult> GetSuppliersByName(string request)
         {
-            var q = await adminService.GetSuppliersByName(request);
-            return Ok(q);
+            var suppliers = await adminService.GetSuppliersByName(request);
+            return Ok(suppliers);
+        }
+
+        [HttpGet("getUsers"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> GetAllUsers()
+        {
+            var users = await userService.GetAllUsersList();
+            return Ok(users);
+        }
+
+        [HttpGet("getUsersByName"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> GetAllUsersByName(string request)
+        {
+            var users = await userService.GetUsersByName(request);
+            return Ok(users);
+        }
+        [HttpPut("toggleUserRole"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> ToggleUserRole(string request)
+        {
+            await userService.ToggleRole(request);
+            return Ok();
+        }
+
+        [HttpDelete("removeUser"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> RemoveUser(string request)
+        {
+            await userService.DeleteUser(request);
+
+            return Ok();
         }
 
         [HttpGet("getCompanyInfo"), Authorize(Roles = "Administrator, Moderator")]
