@@ -115,7 +115,7 @@ namespace Shop.DAL.Context
             CreatePasswordHash("qwerty", out byte[] passwordHash, out byte[] passwordSalt);
 
             builder.HasData(
-                new User() { Id = 1,
+                new User() { Id = 4,
                     Name = "Admin",
                     Surname = "Admin",
                     Email = "admin@mail.ua",
@@ -125,6 +125,36 @@ namespace Shop.DAL.Context
                     RoleId = 1,
                     GenderId = 3}
                 );
+
+            builder.HasData(
+               new User()
+               {
+                   Id = 2,
+                   Name = "Moderator",
+                   Surname = "Moderator",
+                   Email = "moderator@mail.ua",
+                   Phone = "0501234567",
+                   PasswordHash = passwordHash,
+                   PasswordSalt = passwordSalt,
+                   RoleId = 2,
+                   GenderId = 3
+               }
+               );
+
+            builder.HasData(
+               new User()
+               {
+                   Id = 3,
+                   Name = "Client",
+                   Surname = "Client",
+                   Email = "client@mail.ua",
+                   Phone = "0671234567",
+                   PasswordHash = passwordHash,
+                   PasswordSalt = passwordSalt,
+                   RoleId = 3,
+                   GenderId = 3
+               }
+               );
         }
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

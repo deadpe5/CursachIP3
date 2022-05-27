@@ -32,6 +32,7 @@ namespace Shop.BLL.Exceptions
                 {
                     NotFoundException => (int)HttpStatusCode.NotFound,
                     WrongPasswordException => (int)HttpStatusCode.Forbidden,
+                    AdministratorViolationException => (int)HttpStatusCode.Forbidden,
                     UserAlreadyExistException => (int)HttpStatusCode.BadRequest,
                     _ => (int)HttpStatusCode.InternalServerError
                 };

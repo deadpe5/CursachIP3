@@ -10,6 +10,10 @@ namespace Shop.BLL.Services
     public interface IUserService
     {
         Task<AuthUserDTO> CreateUser(newUserDTO userDTO);
-
+        Task<List<UserDTO>> GetAllUsersList();
+        Task<List<UserDTO>> GetUsersByName(string userName);
+        Task DeleteUser(string userEmail);
+        Task UpdateUser(UserDTO user);
+        void ToggleRole(string email);
     }
 }

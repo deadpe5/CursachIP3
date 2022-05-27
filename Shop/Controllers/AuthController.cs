@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shop.BLL.Services;
 using Shop.BLL.DTO;
 
@@ -8,12 +6,12 @@ namespace Shop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthContoller : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IUserService userService;
         private readonly IAuthService authService;
 
-        public AuthContoller(IUserService userService, IAuthService authService)
+        public AuthController(IUserService userService, IAuthService authService)
         {
             this.userService = userService;
             this.authService = authService;

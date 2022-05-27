@@ -20,6 +20,9 @@ namespace Shop.BLL
             CreateMap<newUserDTO, User>()
                 .ForMember(g => g.GenderId, gid => gid.MapFrom(m => m.Gender))
                 .ForMember(g => g.Gender, x => x.Ignore());
+            CreateMap<newSupplierDTO, Supplier>();
+            CreateMap<SupplierDTO, Supplier>().ReverseMap();
+            // CreateMap<List<Supplier>, List<SupplierDTO>>();
         }
     }
 }
