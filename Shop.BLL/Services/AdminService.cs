@@ -16,12 +16,10 @@ namespace Shop.BLL.Services
 {
     public class AdminService : BaseService, IAdminService
     {
-        private protected readonly JwtFactory jwtFactory;
         private readonly IConfiguration configuration;
-        public AdminService(ShopDbContext _context, IMapper _mapper, JwtFactory _jwtFactory, IConfiguration _configuration)
+        public AdminService(ShopDbContext _context, IMapper _mapper, IConfiguration _configuration)
             : base(_context, _mapper)
         {
-            jwtFactory = _jwtFactory;
             configuration = _configuration;
         }
         public async Task CreateSupplier(newSupplierDTO supplierDTO)

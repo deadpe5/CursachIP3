@@ -4,13 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Shop.BLL.DTO;
 using Shop.BLL.Exceptions;
 using Shop.BLL.JWT;
+using Shop.BLL.Utility;
 using Shop.DAL.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shop.BLL.Services
 {
@@ -35,7 +30,7 @@ namespace Shop.BLL.Services
                 throw new NotFoundException("User does not exist.");
             }
 
-            if (!VerifyPasswordHash(userDTO.Password, userEntity.PasswordHash, userEntity.PasswordSalt))
+            if (!Util.VerifyPasswordHash(userDTO.Password, userEntity.PasswordHash, userEntity.PasswordSalt))
             {
                 throw new WrongPasswordException("Wrong password.");
             }
@@ -50,14 +45,6 @@ namespace Shop.BLL.Services
             };
         }
 
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
-        }
     }
 
     

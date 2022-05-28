@@ -13,6 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Shop.BLL.Exceptions;
+using Shop.BLL.Utility;
 
 namespace Shop.BLL.Services
 {
@@ -24,8 +25,26 @@ namespace Shop.BLL.Services
             : base(_context, _mapper)
         {
             jwtFactory = _jwtFactory;
-            configuration = _configuration;
-            
+            configuration = _configuration;          
+        }
+
+        public async Task ChangePassword(NewPasswordDTO newPasswordDTO)
+        {
+            var userEntity = await _context.Users.FirstOrDefaultAsync(x => x.Email == newPasswordDTO.UserEmail);
+            if (userEntity == null)
+            {
+                throw new NotFoundException($"User with {newPasswordDTO.UserEmail} was not found.");
+            }
+
+            if (!Util.VerifyPasswordHash(newPasswordDTO.OldPassword, userEntity.PasswordHash, userEntity.PasswordSalt))
+            {
+                throw new WrongPasswordException("Wrong password.");
+            }
+
+            Util.CreatePasswordHash(newPasswordDTO.NewPassword, out byte[] newPasswordHash, out byte[] newPasswordSalt);
+            userEntity.PasswordHash = newPasswordHash;
+            userEntity.PasswordSalt = newPasswordSalt;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<AuthUserDTO> CreateUser(newUserDTO userDTO)
@@ -46,7 +65,7 @@ namespace Shop.BLL.Services
             userEntity.RoleId = (int)Enums.Role.Client;
             userEntity.GenderId = (int)userDTO.Gender;
 
-            CreatePasswordHash(userDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            Util.CreatePasswordHash(userDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
             userEntity.PasswordSalt = passwordSalt;
             userEntity.PasswordHash = passwordHash;
 
@@ -86,6 +105,18 @@ namespace Shop.BLL.Services
                 .Where(u => u.RoleId != 1)
                 .ToListAsync());
             return users;
+        }
+
+        public async Task<UserDTO> GetUserByEmail(string userEmail)
+        {
+            var userEntity = await _context.Users.FirstOrDefaultAsync(s => s.Email == userEmail);
+            if (userEntity == null)
+            {
+                throw new NotFoundException("User with this email was not found");
+            }
+
+            var userDTO = _mapper.Map<UserDTO>(userEntity);
+            return userDTO;
         }
 
         public async Task<List<UserDTO>> GetUsersByName(string userName)
@@ -145,13 +176,5 @@ namespace Shop.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
     }
 }
