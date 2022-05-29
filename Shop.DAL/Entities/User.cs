@@ -30,6 +30,6 @@ namespace Shop.DAL.Entities
         public int RoleId { get; set; }
         [ForeignKey("RoleId")]
         public virtual Role Role { get; set; }
-        public virtual ICollection<OrderMember> OrderMembers { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Shop.DAL.Entities
 {
-    public class WareStatus
+    public class GoodsStatus
     {
         [Key]
         public int Id { get; set; }
         [Required]
         public string StatusName { get; set; }
-        public virtual ICollection<Ware> Wares { get; set; }
+        public virtual ICollection<Goods> Goods { get; set; }
     }
 }

@@ -17,7 +17,11 @@ namespace Shop.DAL.Entities
         public int OrderStatusId { get; set; }
         [ForeignKey("OrderStatusId")]
         public virtual OrderStatus OrderStatus { get; set; }
-        public virtual ICollection<OrderMember> OrderMembers { get; set; }
-        public virtual ICollection<OrderWare> OrderWares { get; set; }
+        public int GoodsId { get; set; }
+        [ForeignKey("GoodsId")]
+        public virtual Goods Goods { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
     }
 }

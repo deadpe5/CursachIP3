@@ -22,7 +22,19 @@ namespace Shop.BLL
                 .ForMember(g => g.Gender, x => x.Ignore());
             CreateMap<newSupplierDTO, Supplier>();
             CreateMap<SupplierDTO, Supplier>().ReverseMap();
-            // CreateMap<List<Supplier>, List<SupplierDTO>>();
+            CreateMap<GoodsDTO, Goods>()
+                .ForMember(s => s.GoodsStatusId, sid => sid.MapFrom(m => m.GoodsStatus))
+                .ForMember(s => s.GoodsStatus, x => x.Ignore())
+                .ForMember(t => t.GoodsTypeId, tid => tid.MapFrom(m => m.GoodsType))
+                .ForMember(t => t.GoodsType, x => x.Ignore())
+                .ReverseMap();
+            CreateMap<newGoodsDTO, Goods>()
+                .ForMember(s => s.GoodsStatusId, sid => sid.MapFrom(m => m.GoodsStatus))
+                .ForMember(s => s.GoodsStatus, x => x.Ignore())
+                .ForMember(t => t.GoodsTypeId, tid => tid.MapFrom(m => m.GoodsType))
+                .ForMember(t => t.GoodsType, x => x.Ignore());
+            CreateMap<Order, OrderDTO>();
+            CreateMap<newOrderDTO, Order>();
         }
     }
 }

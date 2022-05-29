@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shop.DAL.Entities
 {
-    public class Ware
+    public class Goods
     {
         [Key]
         public int Id { get; set; }
@@ -18,18 +18,23 @@ namespace Shop.DAL.Entities
         public int Price { get; set; }
         [Required]
         public DateTime Manufactured { get; set; }
+        [Required]
+        public double Diagonal { get; set; }
+        [Required]
+        public int CoreCount { get; set; }
+        [Required]
+        public int RAMSize { get; set; }
+        [Required]
+        public int ROMSize { get; set; } 
         public int SupplierId { get; set; }
         [ForeignKey("SupplierId")]
         public virtual Supplier Supplier { get; set; }
-        public int WareStatusId { get; set; }
-        [ForeignKey("WareStatusId")]
-        public virtual WareStatus WareStatus { get; set; }
-        public int TypeId { get; set; }
-        [ForeignKey("TypeId")]
-        public virtual WareType WareType { get; set; }
-        public virtual ICollection<OrderWare> OrderWares { get; set; }
-        public virtual ICollection<RAM> RAM { get; set; }
-        public virtual ICollection<CPU> CPUs { get; set; }
-        public virtual ICollection<GPU> GPUs { get; set; }
+        public int GoodsStatusId { get; set; }
+        [ForeignKey("GoodsStatusId")]
+        public virtual GoodsStatus GoodsStatus { get; set; }
+        public int GoodsTypeId { get; set; }
+        [ForeignKey("GoodsTypeId")]
+        public virtual GoodsType GoodsType { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

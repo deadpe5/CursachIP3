@@ -17,21 +17,15 @@ namespace Shop.DAL.Context
         { 
 
         }
-
-        public DbSet<CPU> CPUs { get; set; }
-        public DbSet<GPU> GPUs { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderMember> OrderMembers { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
-        public DbSet<OrderWare> OrderWares { get; set; }
-        public DbSet<RAM> RAM { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Ware> Ware { get; set; }
-        public DbSet<WareStatus> WareStatus { get; set; }
-        public DbSet<WareType> WareTypes { get; set; }
+        public DbSet<Goods> Goods { get; set; }
+        public DbSet<GoodsStatus> GoodsStatus { get; set; }
+        public DbSet<GoodsType> GoodsTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,8 +36,8 @@ namespace Shop.DAL.Context
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new GenderConfiguration());
             modelBuilder.ApplyConfiguration(new OrderStatusConfiguration());
-            modelBuilder.ApplyConfiguration(new WareStatusConfiguration());
-            modelBuilder.ApplyConfiguration(new WareTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new GoodsStatusConfiguration());
+            modelBuilder.ApplyConfiguration(new GoodsTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
@@ -84,26 +78,26 @@ namespace Shop.DAL.Context
         }
     }
 
-    public class WareStatusConfiguration : IEntityTypeConfiguration<WareStatus>
+    public class GoodsStatusConfiguration : IEntityTypeConfiguration<GoodsStatus>
     {
-        public void Configure(EntityTypeBuilder<WareStatus> builder)
+        public void Configure(EntityTypeBuilder<GoodsStatus> builder)
         {
             builder.HasData(
-                new WareStatus() { Id = 1, StatusName = "In store" },
-                new WareStatus() { Id = 2, StatusName = "In stock" },
-                new WareStatus() { Id = 3, StatusName = "Not avaible" }
+                new GoodsStatus() { Id = 1, StatusName = "In store" },
+                new GoodsStatus() { Id = 2, StatusName = "In stock" },
+                new GoodsStatus() { Id = 3, StatusName = "Not avaible" }
                 );
         }
     }
 
-    public class WareTypeConfiguration : IEntityTypeConfiguration<WareType>
+    public class GoodsTypeConfiguration : IEntityTypeConfiguration<GoodsType>
     {
-        public void Configure(EntityTypeBuilder<WareType> builder)
+        public void Configure(EntityTypeBuilder<GoodsType> builder)
         {
             builder.HasData(
-                new WareType() { Id = 1, TypeName = "CPU" },
-                new WareType() { Id = 2, TypeName = "GPU" },
-                new WareType() { Id = 3, TypeName = "RAM" });
+                new GoodsType() { Id = 1, TypeName = "Laptop" },
+                new GoodsType() { Id = 2, TypeName = "Desktop" },
+                new GoodsType() { Id = 3, TypeName = "Tablet" });
         }
     }
 
@@ -115,7 +109,7 @@ namespace Shop.DAL.Context
             CreatePasswordHash("qwerty", out byte[] passwordHash, out byte[] passwordSalt);
 
             builder.HasData(
-                new User() { Id = 4,
+                new User() { Id = 1,
                     Name = "Admin",
                     Surname = "Admin",
                     Email = "admin@mail.ua",

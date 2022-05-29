@@ -28,7 +28,7 @@ namespace Shop.DAL.Entities
         public int PostalCode { get; set; }
         [Required]
         public string Phone { get; set; }
-        public virtual ICollection<Ware> Wares { get; set; }
+        public virtual ICollection<Goods> Goods { get; set; }
 
     }
 }

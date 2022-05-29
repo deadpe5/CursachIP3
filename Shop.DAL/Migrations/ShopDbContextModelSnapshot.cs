@@ -22,33 +22,6 @@ namespace Shop.DAL.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Shop.DAL.Entities.CPU", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CoreCount")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Speed")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TDP")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("WareId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("CPUs");
-                });
-
             modelBuilder.Entity("Shop.DAL.Entities.Gender", b =>
                 {
                     b.Property<int>("Id")
@@ -83,7 +56,7 @@ namespace Shop.DAL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Shop.DAL.Entities.GPU", b =>
+            modelBuilder.Entity("Shop.DAL.Entities.Goods", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,23 +64,114 @@ namespace Shop.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Speed")
+                    b.Property<int>("CoreCount")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TDP")
+                    b.Property<double>("Diagonal")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("GoodsStatusId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("VRAMSize")
+                    b.Property<int>("GoodsTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("WareId")
+                    b.Property<DateTime>("Manufactured")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RAMSize")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ROMSize")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SupplierId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WareId");
+                    b.HasIndex("GoodsStatusId");
 
-                    b.ToTable("GPUs");
+                    b.HasIndex("GoodsTypeId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("Goods");
+                });
+
+            modelBuilder.Entity("Shop.DAL.Entities.GoodsStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("StatusName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GoodsStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            StatusName = "In store"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StatusName = "In stock"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StatusName = "Not avaible"
+                        });
+                });
+
+            modelBuilder.Entity("Shop.DAL.Entities.GoodsType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GoodsTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            TypeName = "Laptop"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            TypeName = "Desktop"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            TypeName = "Tablet"
+                        });
                 });
 
             modelBuilder.Entity("Shop.DAL.Entities.Order", b =>
@@ -118,28 +182,13 @@ namespace Shop.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("GoodsId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("OrderStatusId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderStatusId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.OrderMember", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
@@ -147,11 +196,13 @@ namespace Shop.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("GoodsId");
+
+                    b.HasIndex("OrderStatusId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OrderMembers");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Shop.DAL.Entities.OrderStatus", b =>
@@ -186,56 +237,6 @@ namespace Shop.DAL.Migrations
                             Id = 3,
                             OrderStatusName = "Canceled"
                         });
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.OrderWare", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Count")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("WareId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("OrderWares");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.RAM", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Size")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Speed")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("WareId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("RAM");
                 });
 
             modelBuilder.Entity("Shop.DAL.Entities.Role", b =>
@@ -364,12 +365,12 @@ namespace Shop.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 4,
+                            Id = 1,
                             Email = "admin@mail.ua",
                             GenderId = 3,
                             Name = "Admin",
-                            PasswordHash = new byte[] { 0, 50, 90, 22, 17, 23, 209, 95, 6, 34, 195, 42, 218, 159, 222, 134, 231, 148, 22, 86, 160, 109, 54, 81, 101, 225, 119, 20, 204, 191, 43, 117, 34, 3, 114, 198, 83, 119, 198, 209, 3, 11, 222, 101, 11, 228, 154, 51, 192, 163, 71, 190, 87, 182, 58, 54, 31, 181, 0, 3, 117, 35, 73, 190 },
-                            PasswordSalt = new byte[] { 140, 122, 28, 135, 134, 90, 62, 81, 224, 32, 157, 2, 88, 163, 15, 174, 54, 80, 251, 140, 211, 175, 22, 78, 30, 43, 38, 48, 77, 246, 0, 79, 74, 202, 44, 36, 169, 154, 42, 55, 24, 169, 4, 191, 179, 193, 113, 84, 176, 182, 11, 21, 123, 11, 127, 229, 139, 220, 233, 127, 4, 81, 142, 140, 12, 55, 184, 140, 221, 236, 135, 107, 154, 18, 25, 47, 113, 93, 43, 208, 3, 246, 126, 185, 75, 32, 218, 225, 72, 253, 5, 74, 56, 182, 40, 123, 217, 168, 253, 252, 108, 188, 102, 134, 101, 244, 179, 192, 142, 213, 204, 70, 113, 243, 138, 162, 86, 165, 5, 181, 9, 122, 111, 94, 131, 1, 251, 172 },
+                            PasswordHash = new byte[] { 203, 113, 112, 228, 70, 230, 11, 84, 37, 93, 63, 56, 149, 87, 218, 62, 127, 95, 205, 195, 249, 141, 36, 64, 143, 58, 183, 26, 35, 44, 227, 107, 196, 34, 129, 15, 235, 253, 202, 137, 98, 65, 237, 10, 132, 182, 237, 220, 130, 151, 38, 73, 132, 222, 168, 238, 148, 167, 128, 65, 52, 227, 184, 159 },
+                            PasswordSalt = new byte[] { 45, 222, 14, 232, 193, 99, 8, 189, 12, 30, 45, 199, 47, 191, 232, 11, 247, 107, 113, 110, 215, 230, 191, 230, 127, 81, 134, 97, 122, 18, 210, 5, 42, 92, 26, 82, 155, 109, 228, 224, 3, 160, 213, 142, 221, 218, 21, 173, 111, 70, 56, 49, 199, 73, 168, 69, 152, 234, 196, 59, 5, 199, 2, 108, 227, 204, 69, 23, 39, 201, 36, 176, 219, 252, 105, 39, 241, 17, 114, 175, 195, 34, 169, 255, 99, 40, 67, 179, 144, 212, 94, 108, 184, 76, 185, 92, 38, 54, 79, 67, 254, 90, 244, 23, 75, 209, 90, 14, 168, 34, 49, 152, 11, 28, 66, 54, 110, 206, 197, 193, 84, 41, 160, 129, 143, 232, 150, 138 },
                             Phone = "0951234567",
                             RoleId = 1,
                             Surname = "Admin"
@@ -380,8 +381,8 @@ namespace Shop.DAL.Migrations
                             Email = "moderator@mail.ua",
                             GenderId = 3,
                             Name = "Moderator",
-                            PasswordHash = new byte[] { 0, 50, 90, 22, 17, 23, 209, 95, 6, 34, 195, 42, 218, 159, 222, 134, 231, 148, 22, 86, 160, 109, 54, 81, 101, 225, 119, 20, 204, 191, 43, 117, 34, 3, 114, 198, 83, 119, 198, 209, 3, 11, 222, 101, 11, 228, 154, 51, 192, 163, 71, 190, 87, 182, 58, 54, 31, 181, 0, 3, 117, 35, 73, 190 },
-                            PasswordSalt = new byte[] { 140, 122, 28, 135, 134, 90, 62, 81, 224, 32, 157, 2, 88, 163, 15, 174, 54, 80, 251, 140, 211, 175, 22, 78, 30, 43, 38, 48, 77, 246, 0, 79, 74, 202, 44, 36, 169, 154, 42, 55, 24, 169, 4, 191, 179, 193, 113, 84, 176, 182, 11, 21, 123, 11, 127, 229, 139, 220, 233, 127, 4, 81, 142, 140, 12, 55, 184, 140, 221, 236, 135, 107, 154, 18, 25, 47, 113, 93, 43, 208, 3, 246, 126, 185, 75, 32, 218, 225, 72, 253, 5, 74, 56, 182, 40, 123, 217, 168, 253, 252, 108, 188, 102, 134, 101, 244, 179, 192, 142, 213, 204, 70, 113, 243, 138, 162, 86, 165, 5, 181, 9, 122, 111, 94, 131, 1, 251, 172 },
+                            PasswordHash = new byte[] { 203, 113, 112, 228, 70, 230, 11, 84, 37, 93, 63, 56, 149, 87, 218, 62, 127, 95, 205, 195, 249, 141, 36, 64, 143, 58, 183, 26, 35, 44, 227, 107, 196, 34, 129, 15, 235, 253, 202, 137, 98, 65, 237, 10, 132, 182, 237, 220, 130, 151, 38, 73, 132, 222, 168, 238, 148, 167, 128, 65, 52, 227, 184, 159 },
+                            PasswordSalt = new byte[] { 45, 222, 14, 232, 193, 99, 8, 189, 12, 30, 45, 199, 47, 191, 232, 11, 247, 107, 113, 110, 215, 230, 191, 230, 127, 81, 134, 97, 122, 18, 210, 5, 42, 92, 26, 82, 155, 109, 228, 224, 3, 160, 213, 142, 221, 218, 21, 173, 111, 70, 56, 49, 199, 73, 168, 69, 152, 234, 196, 59, 5, 199, 2, 108, 227, 204, 69, 23, 39, 201, 36, 176, 219, 252, 105, 39, 241, 17, 114, 175, 195, 34, 169, 255, 99, 40, 67, 179, 144, 212, 94, 108, 184, 76, 185, 92, 38, 54, 79, 67, 254, 90, 244, 23, 75, 209, 90, 14, 168, 34, 49, 152, 11, 28, 66, 54, 110, 206, 197, 193, 84, 41, 160, 129, 143, 232, 150, 138 },
                             Phone = "0501234567",
                             RoleId = 2,
                             Surname = "Moderator"
@@ -392,200 +393,66 @@ namespace Shop.DAL.Migrations
                             Email = "client@mail.ua",
                             GenderId = 3,
                             Name = "Client",
-                            PasswordHash = new byte[] { 0, 50, 90, 22, 17, 23, 209, 95, 6, 34, 195, 42, 218, 159, 222, 134, 231, 148, 22, 86, 160, 109, 54, 81, 101, 225, 119, 20, 204, 191, 43, 117, 34, 3, 114, 198, 83, 119, 198, 209, 3, 11, 222, 101, 11, 228, 154, 51, 192, 163, 71, 190, 87, 182, 58, 54, 31, 181, 0, 3, 117, 35, 73, 190 },
-                            PasswordSalt = new byte[] { 140, 122, 28, 135, 134, 90, 62, 81, 224, 32, 157, 2, 88, 163, 15, 174, 54, 80, 251, 140, 211, 175, 22, 78, 30, 43, 38, 48, 77, 246, 0, 79, 74, 202, 44, 36, 169, 154, 42, 55, 24, 169, 4, 191, 179, 193, 113, 84, 176, 182, 11, 21, 123, 11, 127, 229, 139, 220, 233, 127, 4, 81, 142, 140, 12, 55, 184, 140, 221, 236, 135, 107, 154, 18, 25, 47, 113, 93, 43, 208, 3, 246, 126, 185, 75, 32, 218, 225, 72, 253, 5, 74, 56, 182, 40, 123, 217, 168, 253, 252, 108, 188, 102, 134, 101, 244, 179, 192, 142, 213, 204, 70, 113, 243, 138, 162, 86, 165, 5, 181, 9, 122, 111, 94, 131, 1, 251, 172 },
+                            PasswordHash = new byte[] { 203, 113, 112, 228, 70, 230, 11, 84, 37, 93, 63, 56, 149, 87, 218, 62, 127, 95, 205, 195, 249, 141, 36, 64, 143, 58, 183, 26, 35, 44, 227, 107, 196, 34, 129, 15, 235, 253, 202, 137, 98, 65, 237, 10, 132, 182, 237, 220, 130, 151, 38, 73, 132, 222, 168, 238, 148, 167, 128, 65, 52, 227, 184, 159 },
+                            PasswordSalt = new byte[] { 45, 222, 14, 232, 193, 99, 8, 189, 12, 30, 45, 199, 47, 191, 232, 11, 247, 107, 113, 110, 215, 230, 191, 230, 127, 81, 134, 97, 122, 18, 210, 5, 42, 92, 26, 82, 155, 109, 228, 224, 3, 160, 213, 142, 221, 218, 21, 173, 111, 70, 56, 49, 199, 73, 168, 69, 152, 234, 196, 59, 5, 199, 2, 108, 227, 204, 69, 23, 39, 201, 36, 176, 219, 252, 105, 39, 241, 17, 114, 175, 195, 34, 169, 255, 99, 40, 67, 179, 144, 212, 94, 108, 184, 76, 185, 92, 38, 54, 79, 67, 254, 90, 244, 23, 75, 209, 90, 14, 168, 34, 49, 152, 11, 28, 66, 54, 110, 206, 197, 193, 84, 41, 160, 129, 143, 232, 150, 138 },
                             Phone = "0671234567",
                             RoleId = 3,
                             Surname = "Client"
                         });
                 });
 
-            modelBuilder.Entity("Shop.DAL.Entities.Ware", b =>
+            modelBuilder.Entity("Shop.DAL.Entities.Goods", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Manufactured")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("WareStatusId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SupplierId");
-
-                    b.HasIndex("TypeId");
-
-                    b.HasIndex("WareStatusId");
-
-                    b.ToTable("Ware");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.WareStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("StatusName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WareStatus");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            StatusName = "In store"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            StatusName = "In stock"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            StatusName = "Not avaible"
-                        });
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.WareType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WareTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            TypeName = "CPU"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            TypeName = "GPU"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            TypeName = "RAM"
-                        });
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.CPU", b =>
-                {
-                    b.HasOne("Shop.DAL.Entities.Ware", "Ware")
-                        .WithMany("CPUs")
-                        .HasForeignKey("WareId")
+                    b.HasOne("Shop.DAL.Entities.GoodsStatus", "GoodsStatus")
+                        .WithMany("Goods")
+                        .HasForeignKey("GoodsStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Ware");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.GPU", b =>
-                {
-                    b.HasOne("Shop.DAL.Entities.Ware", "Ware")
-                        .WithMany("GPUs")
-                        .HasForeignKey("WareId")
+                    b.HasOne("Shop.DAL.Entities.GoodsType", "GoodsType")
+                        .WithMany("Goods")
+                        .HasForeignKey("GoodsTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Ware");
+                    b.HasOne("Shop.DAL.Entities.Supplier", "Supplier")
+                        .WithMany("Goods")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GoodsStatus");
+
+                    b.Navigation("GoodsType");
+
+                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("Shop.DAL.Entities.Order", b =>
                 {
+                    b.HasOne("Shop.DAL.Entities.Goods", "Goods")
+                        .WithMany("Orders")
+                        .HasForeignKey("GoodsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Shop.DAL.Entities.OrderStatus", "OrderStatus")
                         .WithMany("Orders")
                         .HasForeignKey("OrderStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OrderStatus");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.OrderMember", b =>
-                {
-                    b.HasOne("Shop.DAL.Entities.Order", "Order")
-                        .WithMany("OrderMembers")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Shop.DAL.Entities.User", "User")
-                        .WithMany("OrderMembers")
+                        .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Order");
+                    b.Navigation("Goods");
+
+                    b.Navigation("OrderStatus");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.OrderWare", b =>
-                {
-                    b.HasOne("Shop.DAL.Entities.Order", "Order")
-                        .WithMany("OrderWares")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Shop.DAL.Entities.Ware", "Ware")
-                        .WithMany("OrderWares")
-                        .HasForeignKey("WareId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Ware");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.RAM", b =>
-                {
-                    b.HasOne("Shop.DAL.Entities.Ware", "Ware")
-                        .WithMany("RAM")
-                        .HasForeignKey("WareId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ware");
                 });
 
             modelBuilder.Entity("Shop.DAL.Entities.User", b =>
@@ -607,43 +474,24 @@ namespace Shop.DAL.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Shop.DAL.Entities.Ware", b =>
-                {
-                    b.HasOne("Shop.DAL.Entities.Supplier", "Supplier")
-                        .WithMany("Wares")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Shop.DAL.Entities.WareType", "WareType")
-                        .WithMany("Wares")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Shop.DAL.Entities.WareStatus", "WareStatus")
-                        .WithMany("Wares")
-                        .HasForeignKey("WareStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Supplier");
-
-                    b.Navigation("WareStatus");
-
-                    b.Navigation("WareType");
-                });
-
             modelBuilder.Entity("Shop.DAL.Entities.Gender", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Shop.DAL.Entities.Order", b =>
+            modelBuilder.Entity("Shop.DAL.Entities.Goods", b =>
                 {
-                    b.Navigation("OrderMembers");
+                    b.Navigation("Orders");
+                });
 
-                    b.Navigation("OrderWares");
+            modelBuilder.Entity("Shop.DAL.Entities.GoodsStatus", b =>
+                {
+                    b.Navigation("Goods");
+                });
+
+            modelBuilder.Entity("Shop.DAL.Entities.GoodsType", b =>
+                {
+                    b.Navigation("Goods");
                 });
 
             modelBuilder.Entity("Shop.DAL.Entities.OrderStatus", b =>
@@ -658,33 +506,12 @@ namespace Shop.DAL.Migrations
 
             modelBuilder.Entity("Shop.DAL.Entities.Supplier", b =>
                 {
-                    b.Navigation("Wares");
+                    b.Navigation("Goods");
                 });
 
             modelBuilder.Entity("Shop.DAL.Entities.User", b =>
                 {
-                    b.Navigation("OrderMembers");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.Ware", b =>
-                {
-                    b.Navigation("CPUs");
-
-                    b.Navigation("GPUs");
-
-                    b.Navigation("OrderWares");
-
-                    b.Navigation("RAM");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.WareStatus", b =>
-                {
-                    b.Navigation("Wares");
-                });
-
-            modelBuilder.Entity("Shop.DAL.Entities.WareType", b =>
-                {
-                    b.Navigation("Wares");
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

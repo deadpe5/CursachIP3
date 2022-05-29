@@ -65,8 +65,8 @@ namespace Shop.BLL.Services
             var ModeratorsCount = _context.Users.Where(u => u.Role.RoleName == "Moderator").Count();
             var ClientCount = _context.Users.Where(u => u.Role.RoleName == "Client").Count();
             var OrdersCount = _context.Orders.Count();
-            var GoodsCount = _context.Ware.Count();
-            var Revenue = _context.OrderWares.Sum(x => x.Ware.Price);
+            var GoodsCount = _context.Goods.Count();
+            var Revenue = 0;
 
             return new CompanyInfoDTO
             {
