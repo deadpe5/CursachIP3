@@ -66,7 +66,7 @@ namespace Shop.BLL.Services
             var ClientCount = _context.Users.Where(u => u.Role.RoleName == "Client").Count();
             var OrdersCount = _context.Orders.Count();
             var GoodsCount = _context.Goods.Count();
-            var Revenue = 0;
+            var Revenue = _context.Orders.Sum(o => o.Goods.Price); //TODO check
 
             return new CompanyInfoDTO
             {

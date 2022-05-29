@@ -17,7 +17,7 @@ namespace Shop.BLL.DTO
         public int CoreCount { get; set; }
         public int RAMSize { get; set; }
         public int ROMSize { get; set; }
-        public int SupplierId { get; set; }
+        public SupplierDTO Supplier { get; set; }
         public GoodsStatusEnum GoodsStatus { get; set; }
         public GoodsTypeEnum GoodsType { get; set; }
     }

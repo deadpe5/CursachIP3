@@ -81,7 +81,7 @@ namespace Shop.BLL.Services
             goodsEntity.CoreCount = goodsDTO.CoreCount;
             goodsEntity.RAMSize = goodsDTO.RAMSize;
             goodsEntity.ROMSize = goodsDTO.ROMSize;
-            goodsEntity.SupplierId = goodsDTO.SupplierId;
+            goodsEntity.Supplier = _mapper.Map<Supplier>(goodsDTO.Supplier);
             goodsEntity.GoodsStatusId = (int)goodsDTO.GoodsStatus;
             goodsEntity.GoodsTypeId = (int)goodsDTO.GoodsType;
 
