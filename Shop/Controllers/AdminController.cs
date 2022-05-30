@@ -43,14 +43,14 @@ namespace Shop.Controllers
             return Ok();
         }
 
-        [HttpGet("getSuppliers"), Authorize(Roles = "Administrator")]
+        [HttpGet("getSuppliers"), Authorize(Roles = "Administrator, Moderator")]
         public async Task<ActionResult> GetAllSuppliers()
         {
             var suppliers = await adminService.GetAllSuppliersList();
             return Ok(suppliers);
         }
 
-        [HttpGet("getSuppliersByName"), Authorize(Roles = "Administrator")]
+        [HttpGet("getSuppliersByName"), Authorize(Roles = "Administrator, Moderator")]
         public async Task<ActionResult> GetSuppliersByName(string request)
         {
             var suppliers = await adminService.GetSuppliersByName(request);

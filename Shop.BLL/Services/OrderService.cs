@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Shop.BLL.DTO;
+using Shop.BLL.Enums;
 using Shop.BLL.Exceptions;
 using Shop.DAL.Context;
 using Shop.DAL.Entities;
@@ -22,7 +23,7 @@ namespace Shop.BLL.Services
         public async Task CreateOrder(newOrderDTO orderDTO)
         {
             var orderEntity = _mapper.Map<Order>(orderDTO);
-
+            orderEntity.OrderStatusId = (int)OrderStatusEnum.InProgress;
             await _context.Orders.AddAsync(orderEntity);
             await _context.SaveChangesAsync();
         }

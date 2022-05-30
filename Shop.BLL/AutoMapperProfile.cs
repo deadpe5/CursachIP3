@@ -33,7 +33,10 @@ namespace Shop.BLL
                 .ForMember(s => s.GoodsStatus, x => x.Ignore())
                 .ForMember(t => t.GoodsTypeId, tid => tid.MapFrom(m => m.GoodsType))
                 .ForMember(t => t.GoodsType, x => x.Ignore());
-            CreateMap<Order, OrderDTO>();
+            CreateMap<OrderDTO, Order>()
+                .ForMember(s => s.OrderStatusId, sid => sid.MapFrom(m => m.OrderStatus))
+                .ForMember(s => s.OrderStatus, x => x.Ignore())
+                .ReverseMap();
             CreateMap<newOrderDTO, Order>();
         }
     }

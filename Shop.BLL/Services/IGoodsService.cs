@@ -11,7 +11,7 @@ namespace Shop.BLL.Services
     {
         Task CreateGoods(newGoodsDTO goods);
         Task DeleteGoods(int goodsId);
-        Task UpdateGoods(GoodsDTO goods);
+        Task UpdateGoods(updatedGoodsDTO goods);
         Task<List<GoodsDTO>> GetAllGoodsList();
         Task<List<GoodsDTO>> GetGoodsByFilter(FilterDTO filter);
     }

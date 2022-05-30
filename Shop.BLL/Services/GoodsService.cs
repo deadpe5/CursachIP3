@@ -66,7 +66,7 @@ namespace Shop.BLL.Services
             return goods;
         }
 
-        public async Task UpdateGoods(GoodsDTO goodsDTO)
+        public async Task UpdateGoods(updatedGoodsDTO goodsDTO)
         {
             var goodsEntity = _context.Goods.FirstOrDefault(x => x.Id == goodsDTO.Id);
             if (goodsEntity == null)
@@ -81,7 +81,7 @@ namespace Shop.BLL.Services
             goodsEntity.CoreCount = goodsDTO.CoreCount;
             goodsEntity.RAMSize = goodsDTO.RAMSize;
             goodsEntity.ROMSize = goodsDTO.ROMSize;
-            goodsEntity.Supplier = _mapper.Map<Supplier>(goodsDTO.Supplier);
+            goodsEntity.SupplierId = goodsDTO.SupplierId;
             goodsEntity.GoodsStatusId = (int)goodsDTO.GoodsStatus;
             goodsEntity.GoodsTypeId = (int)goodsDTO.GoodsType;
 

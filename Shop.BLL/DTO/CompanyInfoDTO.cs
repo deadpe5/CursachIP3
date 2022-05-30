@@ -11,6 +11,7 @@ namespace Shop.BLL.DTO
         public int ClientsCount { get; set; }
         public int ModeratorsCount { get; set; }
         public int GoodsCount { get; set; }
+        public int SuppliersCount { get; set }
         public int OrdersCount { get; set; }
         public int Revenue { get; set; }
     }

@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Shop.BLL.DTO
 {
-    public class newGoodsDTO
+    public class updatedGoodsDTO
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
         public DateTime Manufactured { get; set; }

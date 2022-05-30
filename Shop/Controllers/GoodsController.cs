@@ -34,7 +34,7 @@ namespace Shop.Controllers
         }
 
         [HttpPut("updateGoods"), Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> UpdateGoods(GoodsDTO request)
+        public async Task<ActionResult> UpdateGoods(updatedGoodsDTO request)
         {
             await goodsService.UpdateGoods(request);
 
