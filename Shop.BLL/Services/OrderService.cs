@@ -20,9 +20,10 @@ namespace Shop.BLL.Services
         {
         }
 
-        public async Task CreateOrder(newOrderDTO orderDTO)
+        public async Task CreateOrder(NewOrderDTO orderDTO)
         {
             var orderEntity = _mapper.Map<Order>(orderDTO);
+            orderEntity.OrderDate = DateTime.Today;
             orderEntity.OrderStatusId = (int)OrderStatusEnum.InProgress;
             await _context.Orders.AddAsync(orderEntity);
             await _context.SaveChangesAsync();
@@ -31,6 +32,22 @@ namespace Shop.BLL.Services
         public async Task<List<OrderDTO>> GetOrders()
         {
             var orders = _mapper.Map<List<OrderDTO>>(await _context.Orders.ToListAsync());
+
+            return orders;
+        }
+
+        public async Task<List<OrderDTO>> GetUserOrders(int userId)
+        {
+            if (!(await _context.Users.AnyAsync(x => x.Id == userId)))
+            {
+                throw new NotFoundException($"User with {userId} ID was not found.");
+            }
+
+            var orders = _mapper.Map<List<OrderDTO>>(
+                await _context.Orders
+                .Where(x=> x.User.Id == userId)
+                .ToListAsync()
+                );
 
             return orders;
         }

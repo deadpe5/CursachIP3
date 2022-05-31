@@ -17,10 +17,10 @@ namespace Shop.BLL
                 .ForMember(g => g.Gender, gid => gid.MapFrom(m => m.GenderId))
                 .ForMember(r => r.Role, rid => rid.MapFrom(m => m.RoleId))
                 .ReverseMap();
-            CreateMap<newUserDTO, User>()
+            CreateMap<NewUserDTO, User>()
                 .ForMember(g => g.GenderId, gid => gid.MapFrom(m => m.Gender))
                 .ForMember(g => g.Gender, x => x.Ignore());
-            CreateMap<newSupplierDTO, Supplier>();
+            CreateMap<NewSupplierDTO, Supplier>();
             CreateMap<SupplierDTO, Supplier>().ReverseMap();
             CreateMap<GoodsDTO, Goods>()
                 .ForMember(s => s.GoodsStatusId, sid => sid.MapFrom(m => m.GoodsStatus))
@@ -28,7 +28,7 @@ namespace Shop.BLL
                 .ForMember(t => t.GoodsTypeId, tid => tid.MapFrom(m => m.GoodsType))
                 .ForMember(t => t.GoodsType, x => x.Ignore())
                 .ReverseMap();
-            CreateMap<newGoodsDTO, Goods>()
+            CreateMap<NewGoodsDTO, Goods>()
                 .ForMember(s => s.GoodsStatusId, sid => sid.MapFrom(m => m.GoodsStatus))
                 .ForMember(s => s.GoodsStatus, x => x.Ignore())
                 .ForMember(t => t.GoodsTypeId, tid => tid.MapFrom(m => m.GoodsType))
@@ -37,7 +37,11 @@ namespace Shop.BLL
                 .ForMember(s => s.OrderStatusId, sid => sid.MapFrom(m => m.OrderStatus))
                 .ForMember(s => s.OrderStatus, x => x.Ignore())
                 .ReverseMap();
-            CreateMap<newOrderDTO, Order>();
+            CreateMap<NewOrderDTO, Order>()
+                .ForMember(x=>x.GoodsId, y=>y.MapFrom(m=>m.GoodsId))
+                .ForMember(x=>x.Goods, y => y.Ignore())
+                .ForMember(x=>x.UserId, y=>y.MapFrom(m=>m.UserId))
+                .ForMember(x=>x.User, y=>y.Ignore());
         }
     }
 }

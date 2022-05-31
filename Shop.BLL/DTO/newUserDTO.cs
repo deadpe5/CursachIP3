@@ -7,7 +7,7 @@ using Shop.BLL.Enums;
 
 namespace Shop.BLL.DTO
 {
-    public class newUserDTO
+    public class NewUserDTO
     {
         public string Name { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;

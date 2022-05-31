@@ -19,7 +19,7 @@ namespace Shop.BLL.Services
         {
         }
 
-        public async Task CreateGoods(newGoodsDTO goods)
+        public async Task CreateGoods(NewGoodsDTO goods)
         {
             var goodsEntity = _mapper.Map<Goods>(goods);
             await _context.Goods.AddAsync(goodsEntity);
@@ -66,7 +66,7 @@ namespace Shop.BLL.Services
             return goods;
         }
 
-        public async Task UpdateGoods(updatedGoodsDTO goodsDTO)
+        public async Task UpdateGoods(UpdatedGoodsDTO goodsDTO)
         {
             var goodsEntity = _context.Goods.FirstOrDefault(x => x.Id == goodsDTO.Id);
             if (goodsEntity == null)

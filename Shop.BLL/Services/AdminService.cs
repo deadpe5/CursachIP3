@@ -16,13 +16,11 @@ namespace Shop.BLL.Services
 {
     public class AdminService : BaseService, IAdminService
     {
-        private readonly IConfiguration configuration;
-        public AdminService(ShopDbContext _context, IMapper _mapper, IConfiguration _configuration)
+        public AdminService(ShopDbContext _context, IMapper _mapper)
             : base(_context, _mapper)
         {
-            configuration = _configuration;
         }
-        public async Task CreateSupplier(newSupplierDTO supplierDTO)
+        public async Task CreateSupplier(NewSupplierDTO supplierDTO)
         {
             if (await _context.Suppliers
                 .AnyAsync(s => s.Email == supplierDTO.Email))

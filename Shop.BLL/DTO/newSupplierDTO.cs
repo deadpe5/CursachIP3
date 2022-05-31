@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shop.BLL.DTO
 {
-    public class newSupplierDTO
+    public class NewSupplierDTO
     {
         public string Name { get; set; }
         public string Email { get; set; }

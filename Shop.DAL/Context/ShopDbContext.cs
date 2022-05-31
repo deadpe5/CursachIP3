@@ -85,7 +85,7 @@ namespace Shop.DAL.Context
             builder.HasData(
                 new GoodsStatus() { Id = 1, StatusName = "In store" },
                 new GoodsStatus() { Id = 2, StatusName = "In stock" },
-                new GoodsStatus() { Id = 3, StatusName = "Not avaible" }
+                new GoodsStatus() { Id = 3, StatusName = "Not available" }
                 );
         }
     }

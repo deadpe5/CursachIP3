@@ -47,7 +47,7 @@ namespace Shop.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<AuthUserDTO> CreateUser(newUserDTO userDTO)
+        public async Task<AuthUserDTO> CreateUser(NewUserDTO userDTO)
         {
             if (await _context.Users
                 .AnyAsync(u => u.Email == userDTO.Email))
@@ -148,7 +148,7 @@ namespace Shop.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateUser(UserDTO user)
+        public async Task<AuthUserDTO> UpdateUser(UserDTO user)
         {
             var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
             if (userEntity == null)
@@ -174,6 +174,15 @@ namespace Shop.BLL.Services
             userEntity.Phone = user.Phone;
             userEntity.Email = user.Email;
             await _context.SaveChangesAsync();
+
+            var token = await jwtFactory.GenerateAccessToken(userEntity.Id, userEntity.Role.RoleName, userEntity.Email);
+            var updatedUser = _mapper.Map<UserDTO>(userEntity);
+
+            return new AuthUserDTO
+            {
+                Token = token,
+                User = updatedUser
+            };
         }
 
     }

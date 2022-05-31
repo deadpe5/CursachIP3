@@ -27,9 +27,9 @@ namespace Shop.Controllers
         [HttpPut("updateUser"), Authorize(Roles = "Client, Moderator")]
         public async Task<ActionResult> UpdateUser(UserDTO request)
         {
-            await userService.UpdateUser(request);
+            var user = await userService.UpdateUser(request);
 
-            return Ok();
+            return Ok(user);
         }
 
         [HttpPut("updadePassword"), Authorize(Roles = "Client, Moderator")]

@@ -18,7 +18,7 @@ namespace Shop.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AuthUserDTO>> Register(newUserDTO request)
+        public async Task<ActionResult<AuthUserDTO>> Register(NewUserDTO request)
         {
             var user = await userService.CreateUser(request);
 

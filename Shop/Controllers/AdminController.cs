@@ -20,7 +20,7 @@ namespace Shop.Controllers
         }
 
         [HttpPost("addSupplier"), Authorize(Roles = "Administrator")]
-        public async Task<ActionResult> AddSupplier(newSupplierDTO request)
+        public async Task<ActionResult> AddSupplier(NewSupplierDTO request)
         {
             await adminService.CreateSupplier(request);
 

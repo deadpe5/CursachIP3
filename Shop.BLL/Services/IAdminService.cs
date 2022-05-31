@@ -9,7 +9,7 @@ namespace Shop.BLL.Services
 {
     public interface IAdminService
     {
-        Task CreateSupplier(newSupplierDTO supplier);
+        Task CreateSupplier(NewSupplierDTO supplier);
         Task DeleteSupplier(string supplierEmail);
         Task UpdateSupplier(SupplierDTO supplier);
         Task<List<SupplierDTO>> GetAllSuppliersList();

@@ -23,7 +23,7 @@ namespace Shop.Controllers
             return Ok();
         }
         [HttpPost("createOrder"), Authorize(Roles = "Client")]
-        public async Task<ActionResult> CreateOrder(newOrderDTO request)
+        public async Task<ActionResult> CreateOrder(NewOrderDTO request)
         {
             await orderService.CreateOrder(request);
             return Ok();
@@ -32,6 +32,13 @@ namespace Shop.Controllers
         public async Task<ActionResult> GetAllOrders()
         {
             var orders = await orderService.GetOrders();
+            return Ok(orders);
+        }
+
+        [HttpGet("getUserOrders"), Authorize(Roles = "Client")]
+        public async Task<ActionResult> GetUserOrders(int id)
+        {
+            var orders = await orderService.GetUserOrders(id);
             return Ok(orders);
         }
     }

@@ -18,7 +18,7 @@ namespace Shop.Controllers
         }
 
         [HttpPost("createGood"), Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> CreateGoods(newGoodsDTO request)
+        public async Task<ActionResult> CreateGoods(NewGoodsDTO request)
         {
             await goodsService.CreateGoods(request);
 
@@ -34,7 +34,7 @@ namespace Shop.Controllers
         }
 
         [HttpPut("updateGoods"), Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> UpdateGoods(updatedGoodsDTO request)
+        public async Task<ActionResult> UpdateGoods(UpdatedGoodsDTO request)
         {
             await goodsService.UpdateGoods(request);
 

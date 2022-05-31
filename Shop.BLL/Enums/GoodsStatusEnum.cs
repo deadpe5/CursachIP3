@@ -11,6 +11,6 @@ namespace Shop.BLL.Enums
         All = -1,
         InStore = 1,
         InStock = 2,
-        NotAvaible = 3
+        NotAvailable = 3
     }
 }

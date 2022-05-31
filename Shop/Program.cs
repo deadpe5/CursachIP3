@@ -12,7 +12,6 @@ using System.Text;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddDbContext<ShopDbContext>(opt => {
     var connectionString = builder.Configuration.GetConnectionString("ShopConnectionString");
     opt.UseNpgsql(connectionString);
@@ -55,7 +54,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 var app = builder.Build();
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

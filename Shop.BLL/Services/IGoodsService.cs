@@ -9,9 +9,9 @@ namespace Shop.BLL.Services
 {
     public interface IGoodsService
     {
-        Task CreateGoods(newGoodsDTO goods);
+        Task CreateGoods(NewGoodsDTO goods);
         Task DeleteGoods(int goodsId);
-        Task UpdateGoods(updatedGoodsDTO goods);
+        Task UpdateGoods(UpdatedGoodsDTO goods);
         Task<List<GoodsDTO>> GetAllGoodsList();
         Task<List<GoodsDTO>> GetGoodsByFilter(FilterDTO filter);
     }

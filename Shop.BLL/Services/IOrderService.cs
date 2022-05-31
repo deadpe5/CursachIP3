@@ -19,8 +19,9 @@ namespace Shop.BLL.Services
 {
     public interface IOrderService
     {
-        Task CreateOrder(newOrderDTO orderDTO);
+        Task CreateOrder(NewOrderDTO orderDTO);
         Task UpdateOrderStatus(NewOrderStatusDTO orderStatusDTO);
         Task<List<OrderDTO>> GetOrders();
+        Task<List<OrderDTO>> GetUserOrders(int userId);
     }
 }
