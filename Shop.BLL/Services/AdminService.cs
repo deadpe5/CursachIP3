@@ -54,6 +54,7 @@ namespace Shop.BLL.Services
         {
             var suppliers = _mapper.Map<List<SupplierDTO>>(
                 await _context.Suppliers
+                .OrderBy(x => x.Id)
                 .ToListAsync());
             return suppliers;
         }
@@ -83,6 +84,7 @@ namespace Shop.BLL.Services
             var suppliers = _mapper.Map<List<SupplierDTO>>(
                 await _context.Suppliers
                 .Where(s => s.Name.StartsWith(supplierName))
+                .OrderBy(x => x.Id)
                 .ToListAsync());
             return suppliers;
         }

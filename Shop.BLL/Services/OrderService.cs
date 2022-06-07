@@ -31,7 +31,7 @@ namespace Shop.BLL.Services
 
         public async Task<List<OrderDTO>> GetOrders()
         {
-            var orders = _mapper.Map<List<OrderDTO>>(await _context.Orders.ToListAsync());
+            var orders = _mapper.Map<List<OrderDTO>>(await _context.Orders.OrderBy(x => x.Id).ToListAsync());
 
             return orders;
         }
